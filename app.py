@@ -6,9 +6,9 @@ def process_and_add(json_file):
     with open(json_file, "r",encoding="utf-8") as f:
         data = json.load(f)
     for i in data:
-        example=(i["title"]+", details :"+i["description"])
+        news=(i["title"]+", details :"+i["description"])
 
-        classification = classify_news_as_lead(example)
+        classification = classify_news_as_lead(news)
         print(json.dumps(classification, indent=2))
         if classification["is_lead"]:
             check_and_add_json(json_file)
