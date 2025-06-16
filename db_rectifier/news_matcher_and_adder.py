@@ -1,5 +1,5 @@
-from similarity_matcher import NewsSimilarityDB
-from llm_response import llm_true_false
+from .similarity_matcher import NewsSimilarityDB
+from .llm_response import llm_true_false
 db=NewsSimilarityDB()
 import json
 db.load_database()
@@ -44,4 +44,3 @@ def check_and_add_json(json_file):
             db_news=extract_similar_news_fromdb(news)
             print(news)
             print(db_news)
-
