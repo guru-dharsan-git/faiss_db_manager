@@ -29,22 +29,25 @@ def classify_news_as_lead(news: str, rulebook_path: str = "rulebook.txt") -> dic
         "Education", "Media and Telecommunications", "Government"
     ]
 
-    prompt = (
-        f"You are given a rulebook describing what qualifies as a lead:\n{rulebook}\n\n"
-        f"For the following news item, determine if it is a lead. If it is, assign it to one of the categories: {', '.join(categories)}."
+    prompt = f"""
+
+        You are given a rulebook describing what qualifies as a lead:\n{rulebook}\n\n"
+        For the following news item, determine if it is a lead. If it is, assign it to one of the categories: {', '.join(categories)}."
         "\nRespond with valid JSON with keys 'is_lead' (true/false) and 'category' (string or null)."
-        f"\nNews: {news}\n"
-        """sample json output
-            {
-            "is_lead": false,
-            "category": null
-            }
-        """
-    )
+        \nNews: {news}\n"
+        
+    """
+    sytle = """
+    write the output in json format only
+    {
+    "is_lead": false,
+    "category": null
+    }
+"""
 
     response = client.models.generate_content(
         model="gemini-2.0-flash-001",
-        contents=prompt,
+        contents=prompt+"\n"+sytle,
         config=types.GenerateContentConfig(
             system_instruction="You will classify a news item as a lead or not and, if a lead, assign the correct category in JSON.",
             temperature=0.0,

@@ -1,0 +1,30 @@
+# Rulebook for Lead Generation
+
+# Keywords to ignore
+ignore_keywords:
+  - sports
+  - entertainment
+  - politics
+  - crime
+  - weather
+  - accident
+  - tragedy
+  - disaster
+  - celebrity
+  - movie
+  - music
+  - tv
+  - festival
+  - holiday
+  - vacation
+  - travel
+  - food
+  - fashion
+  - beauty
+  - lifestyle
+  - gossip
+  - rumor
+  - scandal
+  - controversy
+
+
