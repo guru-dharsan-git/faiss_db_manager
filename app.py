@@ -10,4 +10,8 @@ def process_and_add(json_file):
 
         classification = classify_news_as_lead(example)
         print(json.dumps(classification, indent=2))
+        if classification["is_lead"]:
+            check_and_add_json(json_file)
+        ##classification["category"] contains the category
+        
 process_and_add("cnn_company.json")
