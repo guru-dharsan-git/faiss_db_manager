@@ -54,7 +54,7 @@ class NewsSimilarityDB:
         
         # print(f"\n🔎 Query: {query}\n")
         # print("📊 Similarity Results:")
-        # print("-" * 50)
+        # print("-" * 50) 
         
         results = []
         for rank, idx in enumerate(I[0]):
