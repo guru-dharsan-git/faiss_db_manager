@@ -5,13 +5,13 @@ import os
 import json
 import re
 
-def classify_news_as_lead(news: str, rulebook_path: str = "rulebook.txt") -> dict:
+def classify_news_as_lead(news: str = "The government has launched a ₹5,000 crore program linking education with industry training, aiming to enhance employability through skill-based curricula. Financial institutions will co-fund this initiative, creating a strong bridge between education, industry needs, and funding support.", rulebook_path: str = "rulebook.txt") -> dict:
     """
     Classify a news item as a lead and assign it to a category and sub-category based on the rulebook.
     Returns a dict with keys:
       - is_lead (bool)
-      - category (str or None)
-      - sub_category (str or None)
+      - category (list or None)
+      - sub_category (list or None)
     """
     load_dotenv()
     api_key = os.getenv("GEMINI_API_KEY")
@@ -112,13 +112,31 @@ For the following news item, determine if it is a lead. If it is, assign it to o
 Categories and Sub-categories:
 {categories_formatted}
 
-Respond with valid JSON with keys 'is_lead' (true/false), 'category' (string or null), and 'sub_category' (string or null).
+If the news item qualifies for multiple categories, include all relevant categories and their corresponding sub-categories.
+
+Respond with valid JSON with keys 'is_lead' (true/false), 'category' (array or null), and 'sub_category' (array or null).
 
 News: {news}
 """
 
     style = """
 Write the output in JSON format only:
+
+For single category:
+{
+    "is_lead": true,
+    "category": ["Construction"],
+    "sub_category": ["Commercial Construction"]
+}
+
+For multiple categories:
+{
+    "is_lead": true,
+    "category": ["Construction", "Education"],
+    "sub_category": ["Commercial Construction", "Vocational Training"]
+}
+
+For no lead:
 {
     "is_lead": false,
     "category": null,
@@ -130,7 +148,7 @@ Write the output in JSON format only:
         model="gemini-2.0-flash-001",
         contents=prompt + "\n" + style,
         config=types.GenerateContentConfig(
-            system_instruction="You will classify a news item as a lead or not and, if a lead, assign the correct category and sub-category in JSON format.",
+            system_instruction="You will classify a news item as a lead or not and, if a lead, assign the correct category and sub-category in JSON format. Always return arrays for both category and sub_category fields when is_lead is true, even for single categories.",
             temperature=0.0,
             max_output_tokens=150
         )
@@ -144,16 +162,38 @@ Write the output in JSON format only:
     try:
         result = json.loads(raw)
         
-        # Validate that sub_category belongs to the selected category
+        # Validate that sub_categories belong to the selected categories
         if result.get("is_lead") and result.get("category") and result.get("sub_category"):
-            category = result["category"]
-            sub_category = result["sub_category"]
+            categories = result["category"]
+            sub_categories = result["sub_category"]
             
-            if category in categories_with_subcategories:
-                valid_subcategories = categories_with_subcategories[category]
-                if sub_category not in valid_subcategories:
-                    # If sub_category is invalid, set it to None
-                    result["sub_category"] = None
+            # Ensure both are lists
+            if not isinstance(categories, list):
+                categories = [categories]
+            if not isinstance(sub_categories, list):
+                sub_categories = [sub_categories]
+            
+            # Validate each sub_category belongs to its corresponding category
+            validated_categories = []
+            validated_sub_categories = []
+            
+            for i, category in enumerate(categories):
+                if category in categories_with_subcategories:
+                    validated_categories.append(category)
+                    
+                    # Check if corresponding sub_category exists and is valid
+                    if i < len(sub_categories):
+                        sub_category = sub_categories[i]
+                        valid_subcategories = categories_with_subcategories[category]
+                        if sub_category in valid_subcategories:
+                            validated_sub_categories.append(sub_category)
+                        else:
+                            # If sub_category is invalid, skip this pair
+                            validated_categories.pop()
+            
+            # Update result with validated data
+            result["category"] = validated_categories if validated_categories else None
+            result["sub_category"] = validated_sub_categories if validated_sub_categories else None
         
     except json.JSONDecodeError:
         raise ValueError(f"Failed to parse JSON from LLM response: {response.text}")
@@ -164,5 +204,5 @@ if __name__ == "__main__":
     example_news = (
         "Updates: Ex-Chief Minister Vijay Rupani's DNA Matches, 32 Bodies Identified discription Ahmedabad Plane Crash Live Updates: The bodies of the 274 victims of the Ahmedabad plane crash, who have been identified, are set to be handed over to their families by the Gujarat government on Sunday, sources said."
     )
-    classification = classify_news_as_lead(example_news)
+    classification = classify_news_as_lead()
     print(json.dumps(classification, indent=2))

@@ -8,10 +8,14 @@ def process_and_add(json_file):
     for i in data:
         news=(i["title"]+", details :"+i["description"])
 
+
         classification = classify_news_as_lead(news)
         print(json.dumps(classification, indent=2))
         if classification["is_lead"]:
             check_and_add_json(json_file)
+            # db.update(i["title"],i["description"],classification["category"],classification["sub_category"],i["link"],i["pubDate"])
+            print(i["pubDate"])
+            print(i["title"])
         # classification["category"] contains the category
         
 process_and_add("cnn_company.json")
