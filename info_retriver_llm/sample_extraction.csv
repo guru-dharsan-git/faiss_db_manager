@@ -1,0 +1,6 @@
+Name,Type,Role,Company,Contacts,Locations
+"Microsoft","company","","","press@microsoft.com; +1-425-882-8080","Redmond, Washington"
+"Satya Nadella","person","CEO","Microsoft","",""
+"Sarah Chen","person","VP of AI Research","Microsoft","",""
+"Google","company","","","",""
+"John Smith","person","Senior AI Researcher","Google","j.smith@google.com",""

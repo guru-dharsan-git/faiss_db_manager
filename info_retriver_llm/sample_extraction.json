@@ -1,0 +1,62 @@
+{
+  "entities": [
+    {
+      "name": "Microsoft",
+      "type": "company",
+      "role": "",
+      "company": "",
+      "contacts": [
+        "press@microsoft.com",
+        "+1-425-882-8080"
+      ],
+      "locations": [
+        "Redmond, Washington"
+      ]
+    },
+    {
+      "name": "Satya Nadella",
+      "type": "person",
+      "role": "CEO",
+      "company": "Microsoft",
+      "contacts": [],
+      "locations": []
+    },
+    {
+      "name": "Sarah Chen",
+      "type": "person",
+      "role": "VP of AI Research",
+      "company": "Microsoft",
+      "contacts": [],
+      "locations": []
+    },
+    {
+      "name": "Google",
+      "type": "company",
+      "role": "",
+      "company": "",
+      "contacts": [],
+      "locations": []
+    },
+    {
+      "name": "John Smith",
+      "type": "person",
+      "role": "Senior AI Researcher",
+      "company": "Google",
+      "contacts": [
+        "j.smith@google.com"
+      ],
+      "locations": []
+    }
+  ],
+  "summary": "Microsoft's CEO Satya Nadella and VP of AI Research Sarah Chen will be speaking at the AI Summit conference in Seattle. Microsoft will launch its new AI initiative from its headquarters in Redmond, Washington. The conference will also feature speakers from Google, including Dr. John Smith.",
+  "standalone_locations": [
+    "Seattle"
+  ],
+  "standalone_contacts": [],
+  "metadata": {
+    "total_people": 3,
+    "total_companies": 2,
+    "total_contacts": 3,
+    "total_locations": 2
+  }
+}

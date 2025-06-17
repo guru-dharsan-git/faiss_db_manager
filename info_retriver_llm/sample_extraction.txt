@@ -1,0 +1,32 @@
+EXTRACTED INFORMATION REPORT
+==================================================
+
+SUMMARY:
+Microsoft's CEO Satya Nadella and VP of AI Research Sarah Chen will be speaking at the AI Summit conference in Seattle. Microsoft will launch its new AI initiative from its headquarters in Redmond, Washington. The conference will also feature speakers from Google, including Dr. John Smith.
+
+ENTITIES:
+--------------------
+Name: Microsoft
+Type: Company
+Contacts: press@microsoft.com, +1-425-882-8080
+Locations: Redmond, Washington
+
+Name: Satya Nadella
+Type: Person
+Role: CEO
+Company: Microsoft
+
+Name: Sarah Chen
+Type: Person
+Role: VP of AI Research
+Company: Microsoft
+
+Name: Google
+Type: Company
+
+Name: John Smith
+Type: Person
+Role: Senior AI Researcher
+Company: Google
+Contacts: j.smith@google.com
+
